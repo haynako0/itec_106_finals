@@ -1,0 +1,35 @@
+h1 {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: #ffdd57;
+}
+
+.nav-link.btn {
+    border-radius: 25px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link.btn:hover {
+    background-color: #ffdd57;
+    color: #000;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+}
+
+.footer {
+    background-color: #343a40;
+    color: white;
+    padding: 1rem 0;
+}
+
