@@ -1,6 +1,21 @@
-h1 {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    color: #ffdd57;
+@font-face {
+    font-family: Brick Sans;
+    src: url(../fonts/NTBrickSans/NTBrickSans.ttf);
+}
+
+@font-face {
+    font-family: g1;
+    src: url(../fonts/GibstoneTrial-Thin.ttf);
+}
+
+@font-face {
+    font-family: g2;
+    src: url(../fonts/GibstoneTrial-Regular.ttf);
+}
+
+@font-face {
+    font-family: g3;
+    src: url(../fonts/GibstoneTrial-Bold.ttf);
 }
 
 .nav-link.btn {
@@ -9,8 +24,8 @@ h1 {
 }
 
 .nav-link.btn:hover {
-    background-color: #ffdd57;
-    color: #000;
+    background-color: #FFEBB6;
+    color: #1B3B55;
 }
 
 html, body {
@@ -19,6 +34,7 @@ html, body {
 }
 
 body {
+    background-color: #98cfd8;
     display: flex;
     flex-direction: column;
 }
@@ -28,8 +44,106 @@ body {
 }
 
 .footer {
-    background-color: #343a40;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/bg.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    box-shadow: 2px 0px 5px #333333;
     color: white;
     padding: 1rem 0;
 }
 
+#reg2{
+    align-items: center;
+}
+
+.header{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/bg.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    box-shadow: 0px 2px 5px #333333;
+}
+
+.navbar{
+    font-family: Brick Sans;
+    padding: 5px;
+}
+
+#fb{
+    background-color: #3b5998;
+}
+
+#message{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#txt{
+    font-family: g3;
+    text-align: center;
+}
+
+#txt2{
+    font-family: g2;
+    text-align: center;
+}
+
+#txt3{
+    font-family: g3;
+    text-align: center;
+}
+
+#create{
+    background-color: #1B3B55;
+    padding: 50px;
+    border-radius: 15px;
+    font-family: g2;
+}
+
+#create_btn{
+    background-color: #2E6F85;
+    color: white;
+}
+
+#flairs{
+    font-family: g2;
+    background-color: #1B3B55;
+    padding: 50px;
+    border-radius: 15px;
+}
+
+#txt4{
+    font-family: g3;
+    text-align: center;
+}
+
+.txt5{
+    font-family: g3;
+}
+
+#game_flairs{
+    font-family: g2;
+    background-color: #FCB7CE;
+    padding: 20px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+#post_flairs{
+    font-family: g2;
+    background-color: #FCB7CE;
+    padding: 20px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+#flair_btn{
+    background-color: #2E6F85;
+    color: white;
+}
