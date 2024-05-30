@@ -12,10 +12,10 @@
 <header class="header text-dark">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-            <a class="navbar-brand" href="index.php"><img src="img/Gacha_Garden-removebg-preview.png" class="img-fluid" style="height: 70px;"></a>
+            <a class="navbar-brand" href="#"><img src="img/Gacha_Garden-removebg-preview.png" class="img-fluid" style="height: 70px;"></a>
             <nav class="navbar navbar-expand-lg">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
+                        <button class="navbar-toggler bg-light" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span id="tog_icon" class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNav">
                             <ul class="navbar-nav ml-auto">
@@ -27,14 +27,8 @@
                                 </li>
                                 <?php if(isset($_SESSION['username'])): ?>
                                     <?php if($_SESSION['role'] == 'admin'): ?>
-                                        <li class="nav-item">
-                                            <a class="nav-link btn btn-outline-light mx-1" href="admin_panel.php">Admin Panel</a>
-                                        </li>
                                     <?php endif; ?>
                                     <?php if($_SESSION['role'] == 'moderator' || $_SESSION['role'] == 'admin'): ?>
-                                        <li class="nav-item">
-                                            <a class="nav-link btn btn-outline-light mx-1" href="manage_flairs.php">Manage Flairs</a>
-                                        </li>
                                         <li class="nav-item">
                                             <a class="nav-link btn btn-outline-light mx-1" href="moderator_panel.php">Moderator Panel</a>
                                         </li>

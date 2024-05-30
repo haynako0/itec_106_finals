@@ -51,9 +51,9 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header bg-dark text-white">
-                        <h3 class="text-center">Login</h3>
+                        <h3 id="txt5" class="text-center">Login</h3>
                     </div>
-                    <div class="card-body">
+                    <div id="login" class="card-body">
                         <form method="POST" action="">
                             <div class="form-group">
                                 <label for="username">Username:</label>
@@ -73,8 +73,8 @@
                     </div>
                 </div>
             </div>
-            <div id="reg2" class="col-md-6">
-                    <h2>Or login with:</h2>
+            <div class="col-md-6">
+                    <h2 id="txt4">Or login with:</h2>
                     <a id="fb" class="btn mx-1 btn-lg btn-block text-light" href="coming_soon.php"><span><i class="bi bi-facebook m-2"></i></span>Login with Facebook</a>
                 <br></br>
                 <a class="btn mx-1 btn-danger btn-lg btn-block text-light" href="coming_soon.php"><span><i class="bi bi-envelope m-2"></i>Login with Gmail</a>

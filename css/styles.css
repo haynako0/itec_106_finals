@@ -5,17 +5,17 @@
 
 @font-face {
     font-family: g1;
-    src: url(../fonts/GibstoneTrial-Thin.ttf);
+    src: url(../fonts/Hoves/TT\ Hoves\ Pro\ Trial\ Thin.ttf);
 }
 
 @font-face {
     font-family: g2;
-    src: url(../fonts/GibstoneTrial-Regular.ttf);
+    src: url(../fonts/Hoves/TT\ Hoves\ Pro\ Trial\ Regular.ttf);
 }
 
 @font-face {
     font-family: g3;
-    src: url(../fonts/GibstoneTrial-Bold.ttf);
+    src: url(../fonts/Hoves/TT\ Hoves\ Pro\ Trial\ Bold.ttf);
 }
 
 .nav-link.btn {
@@ -81,7 +81,6 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
 }
 
 #txt{
@@ -99,9 +98,9 @@ body {
     text-align: center;
 }
 
-#create{
-    background-color: #1B3B55;
-    padding: 50px;
+#create_post{
+    background-color: #214663;
+    padding: 20px;
     border-radius: 15px;
     font-family: g2;
 }
@@ -111,39 +110,63 @@ body {
     color: white;
 }
 
-#flairs{
-    font-family: g2;
-    background-color: #1B3B55;
-    padding: 50px;
-    border-radius: 15px;
-}
-
 #txt4{
     font-family: g3;
     text-align: center;
 }
 
-.txt5{
+#txt5{
     font-family: g3;
+    text-align: center;
 }
 
-#game_flairs{
+#login{
     font-family: g2;
-    background-color: #FCB7CE;
-    padding: 20px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
 }
 
-#post_flairs{
+#txt6{
+    font-family: g3;
+    text-align: center;
+}
+
+#txt7{
+    font-family: g3;
+    text-align: center;
+}
+
+#register{
     font-family: g2;
-    background-color: #FCB7CE;
-    padding: 20px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
 }
 
-#flair_btn{
-    background-color: #2E6F85;
+#txt8{
+    font-family: g3;
+    color: #FCB7CE;
+}
+
+#post_header{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/bg4.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0px 2px 5px #777;
+}
+
+#post_body{
+    font-family: g2;
+    font-size: large;
+}
+
+#comment_header{
+    background-image:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/bg4.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0px 2px 5px #777;
+}
+
+#content_card{
+    border: #FCB7CE solid 4px;
+}
+
+#view_btn{
+    background-color: #214663;
     color: white;
 }

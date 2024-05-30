@@ -58,7 +58,7 @@
     <div class="container mt-5">
         <h2 id="txt3">Create Post</h2>
 
-        <form id="create" method="POST" action="">
+        <form id="create_post" method="POST" action="">
             <div class="form-group">
                 <label class="text-light" for="title">Title:</label>
                 <input type="text" id="title" name="title" class="form-control" required>
