@@ -137,6 +137,39 @@
         return false;
     }
 
+   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        } elseif ($action == 'edit_flair') {
+            $flair_id = $_POST['flair_id'];
+            $flair_type = $_POST['flair_type'];
+            $flair_name = $_POST['flair_name'];
+            $sql = "";
+            if ($flair_type == 'game') {
+                $sql = "UPDATE game_flairs SET name = ? WHERE id = ?";
+            } else {
+                $sql = "UPDATE post_flairs SET name = ? WHERE id = ?";
+            }
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $flair_name, $flair_id);
+            if ($stmt->execute()) {
+                header("Location: moderator_panel.php");
+            } else {
+                echo "Error: " . $sql . "<br>" . $stmt->error;
+            }
+        }
+    }
+
+    if (isset($_GET['user_search'])) {
+    $user_search = "%" . $_GET['user_search'] . "%";
+    $sql_users = "SELECT * FROM users WHERE username LIKE ?";
+    $stmt_users = $conn->prepare($sql_users);
+    $stmt_users->bind_param("s", $user_search);
+    $stmt_users->execute();
+    $result_users = $stmt_users->get_result();
+    } else {
+    $sql_users = "SELECT * FROM users";
+    $result_users = $conn->query($sql_users);
+    }
+
     $sql_users = "SELECT * FROM users";
     $result_users = $conn->query($sql_users);
 
