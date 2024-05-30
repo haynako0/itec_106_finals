@@ -1,7 +1,7 @@
 </div> 
-    <footer class="footer mt-auto py-3 bg-dark text-white">
+    <footer class="footer mt-auto py-3 text-white">
         <div class="container">
-            <span class="text-muted">© 2024 Gaming Forum</span>
+            <span class="text-light">© 2024 Gacha Garden</span>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
