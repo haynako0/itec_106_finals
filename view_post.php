@@ -51,9 +51,16 @@
                 <p>By: <?php echo htmlspecialchars($post['username']); ?></p>
                 <p><span class="badge badge-info"><?php echo htmlspecialchars($post['game_flair']); ?></span></p>
                 <p><span class="badge badge-secondary"><?php echo htmlspecialchars($post['post_flair']); ?></span></p>
-                
+            </div>
+        </div>
+
+        <div class="card mt-3 mb-5">
+            <div id="comment_header" class="card-header">
+                <h3 id="txt8" class="mb-0">Comments</h3>
+            </div>
+            <div class="card-body">
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <form method="POST" action="comment.php">
+                    <form method="POST" action="comment.php" style="margin-bottom: 20px;">
                         <div class="form-group">
                             <textarea class="form-control" name="content" rows="3" required></textarea>
                         </div>
@@ -63,14 +70,7 @@
                 <?php else: ?>
                     <p><a href="login.php">Log in</a> to post a comment.</p>
                 <?php endif; ?>
-            </div>
-        </div>
 
-        <div class="card mt-3 mb-5">
-            <div id="comment_header" class="card-header">
-                <h3 id="txt8" class="mb-0">Comments</h3>
-            </div>
-            <div class="card-body">
                 <?php while($comment = $result_comments->fetch_assoc()): ?>
                     <div class="card mb-3">
                         <div id="post_body" class="card-body">
@@ -85,3 +85,4 @@
 
     <?php include 'templates/footer.php'; ?>
 </body>
+</html>

@@ -19,21 +19,27 @@
     $result = $conn->query($sql);
     ?>
 
-    <div class="row">
-        <?php while($post = $result->fetch_assoc()): ?>
-            <div class="col-md-6 mt-4 mb-3">
-                <div class="card">
-                    <div id="content_card" class="card-body">
-                        <h5 class="card-title"><?php echo htmlspecialchars($post['title']); ?></h5>
-                        <h6 class="card-subtitle mb-2 text-muted">By: <?php echo htmlspecialchars($post['username']); ?></h6>
-                        <p class="card-text"><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
-                        <p><span class="badge badge-info"><?php echo htmlspecialchars($post['game_flair']); ?></span></p>
-                        <p><span class="badge badge-secondary"><?php echo htmlspecialchars($post['post_flair']); ?></span></p>
-                        <a href="view_post.php?id=<?php echo $post['id']; ?>" id="view_btn" class="btn">View Post</a>
+    <div class="container mt-5">
+        <div class="row">
+            <?php while($post = $result->fetch_assoc()): ?>
+                <div class="col-md-6 mt-4 mb-3">
+                    <div class="card">
+                        <div id="content_card" class="card-body">
+                            <h5 class="card-title"><?php echo htmlspecialchars($post['title']); ?></h5>
+                            <h6 class="card-subtitle mb-2 text-muted">By: 
+                                <a href="user_page.php?username=<?php echo urlencode($post['username']); ?>" class="text-decoration-none text-dark">
+                                    <?php echo htmlspecialchars($post['username']); ?>
+                                </a>
+                            </h6>
+                            <p class="card-text"><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
+                            <p><span class="badge badge-info"><?php echo htmlspecialchars($post['game_flair']); ?></span></p>
+                            <p><span class="badge badge-secondary"><?php echo htmlspecialchars($post['post_flair']); ?></span></p>
+                            <a href="view_post.php?id=<?php echo $post['id']; ?>" id="view_btn" class="btn btn-primary">View Post</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php endwhile; ?>
+            <?php endwhile; ?>
+        </div>
     </div>
 
     <?php include 'templates/footer.php'; ?>
