@@ -15,7 +15,6 @@
     include 'includes/db.php';
     include 'templates/header.php';
 
-    // Check if the user is an admin or moderator
     $is_admin_or_mod = false;
     if (isset($_SESSION['user_id'])) {
         $user_id = $_SESSION['user_id'];
@@ -43,17 +42,14 @@
         exit;
     }
 
-    // Handle comment deletion
     if ($is_admin_or_mod && isset($_GET['delete_comment'])) {
         $comment_id = (int)$_GET['delete_comment'];
 
-        // Delete the comment
         $sql = "DELETE FROM comments WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $comment_id);
         $stmt->execute();
 
-        // Delete any images associated with the comment
         $comment_image_path = "uploads/comments/" . $comment_id . "/";
         if (is_dir($comment_image_path)) {
             array_map('unlink', glob($comment_image_path . "/*.*"));

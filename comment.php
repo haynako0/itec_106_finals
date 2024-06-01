@@ -3,19 +3,16 @@ session_start();
 include 'includes/db.php';
 include 'templates/header.php';
 
-// Redirect to login if user is not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
 
-// Process form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_SESSION['user_id'];
     $post_id = $_POST['post_id'];
     $content = $_POST['content'];
 
-    // Insert comment into database
     $sql = "INSERT INTO comments (post_id, user_id, content) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('iis', $post_id, $user_id, $content);
@@ -23,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->execute()) {
         $comment_id = $stmt->insert_id;
 
-        // Upload image if provided
         if (!empty($_FILES['comment_image']['name'])) {
             $target_dir = "uploads/comments/$comment_id/";
             if (!file_exists($target_dir)) {
@@ -31,26 +27,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             $target_file = $target_dir . basename($_FILES["comment_image"]["name"]);
 
-            // Check file type
             $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
             $allowed_extensions = array("jpg", "jpeg", "png", "gif");
 
             if (!in_array($imageFileType, $allowed_extensions)) {
                 echo "Error: Only JPG, JPEG, PNG, and GIF files are allowed.";
             } else {
-                // Upload file
+
                 if (move_uploaded_file($_FILES["comment_image"]["tmp_name"], $target_file)) {
-                    // File uploaded successfully
+
                 } else {
                     echo "Error uploading comment image.";
                 }
             }
         }
 
-        // Redirect to view post page
         header("Location: view_post.php?id=$post_id");
     } else {
-        // Error in SQL execution
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
