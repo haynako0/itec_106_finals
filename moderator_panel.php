@@ -325,55 +325,51 @@ $result_post_flairs = $conn->query($sql_post_flairs);
     </div>
 
     <div class="card mb-3">
-        <div id="post_header" class="card-header">
-            <h2 id="txt8">Posts</h2>
-        </div>
-        <div id="post_body" class="card-body">
-            <form method="GET" action="">
-                <div class="input-group mb-3">
-                    <input type="text" name="search_posts" class="form-control" placeholder="Search posts" value="<?php echo htmlspecialchars($search_posts); ?>">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">Search</button>
-                    </div>
+    <div id="post_header" class="card-header">
+        <h2 id="txt8">Posts</h2>
+    </div>
+    <div id="post_body" class="card-body">
+        <form method="GET" action="">
+            <div class="input-group mb-3">
+                <input type="text" name="search_posts" class="form-control" placeholder="Search posts" value="<?php echo htmlspecialchars($search_posts); ?>">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Search</button>
                 </div>
-            </form>
-            <table class="table table-bordered">
-                <thead>
+            </div>
+        </form>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Game Flair</th>
+                    <th>Post Flair</th>
+                    <th>Created At</th>
+                    <th>Username</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($post = $result_posts->fetch_assoc()): ?>
                     <tr>
-                        <th>Title</th>
-                        <th>Content</th>
-                        <th>Game Flair</th>
-                        <th>Post Flair</th>
-                        <th>Created At</th>
-                        <th>Username</th>
-                        <th>Action</th>
+                        <td><?php echo htmlspecialchars($post['title']); ?></td>
+                        <td><?php echo htmlspecialchars($post['content']); ?></td>
+                        <td><?php echo htmlspecialchars($post['game_flair']); ?></td>
+                        <td><?php echo htmlspecialchars($post['post_flair']); ?></td>
+                        <td><?php echo htmlspecialchars($post['created_at']); ?></td>
+                        <td><?php echo htmlspecialchars($post['username']); ?></td>
+                        <td>
+                            <form method="POST" action="">
+                                <input type="hidden" name="item_id" value="<?php echo $post['id']; ?>">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="item_type" value="post">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete Post</button>
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php while ($post = $result_posts->fetch_assoc()): ?>
-                        <tbody>
-                    <?php while ($post = $result_posts->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($post['title']); ?></td>
-                            <td><?php echo htmlspecialchars($post['content']); ?></td>
-                            <td><?php echo htmlspecialchars($post['game_flair']); ?></td>
-                            <td><?php echo htmlspecialchars($post['post_flair']); ?></td>
-                            <td><?php echo htmlspecialchars($post['created_at']); ?></td>
-                            <td><?php echo htmlspecialchars($post['username']); ?></td>
-                            <td>
-                                <form method="POST" action="">
-                                    <input type="hidden" name="item_id" value="<?php echo $post['id']; ?>">
-                                    <input type="hidden" name="action" value="delete">
-                                    <input type="hidden" name="item_type" value="post">
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete Post</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endwhile; ?>
-                </tbody>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
 
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
