@@ -15,10 +15,10 @@
     include 'includes/db.php';
     include 'templates/header.php';
 
-    if (isset($_SESSION['username'])) {
-        $username = $conn->real_escape_string($_SESSION['username']);
+    if (isset($_GET['username'])) {
+        $username_param = $conn->real_escape_string($_GET['username']);
 
-        $sql_user = "SELECT * FROM users WHERE username = '$username'";
+        $sql_user = "SELECT * FROM users WHERE username = '$username_param'";
         $result_user = $conn->query($sql_user);
 
         if ($result_user->num_rows > 0) {
@@ -28,12 +28,17 @@
 
             $sql_posts = "SELECT * FROM posts WHERE username = '$username' ORDER BY created_at DESC";
             $result_posts = $conn->query($sql_posts);
+
+            if ($result_posts === false) {
+                echo "Error fetching posts: " . $conn->error;
+                exit;
+            }
         } else {
             echo "User not found.";
             exit;
         }
     } else {
-        header("Location: login.php");
+        echo "Username parameter not set.";
         exit;
     }
     ?>
