@@ -353,37 +353,40 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
+                            <th>Action</th>
                             <th>Title</th>
                             <th>Content</th>
                             <th>Game Flair</th>
                             <th>Post Flair</th>
                             <th>Created At</th>
                             <th>Username</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php while ($post = $result_posts->fetch_assoc()): ?>
                             <tr>
+                                <td>
+                                    <form method="POST" action="">
+                                        <input type="hidden" name="item_id" value="<?php echo $post['id']; ?>">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="item_type" value="post">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
                                 <td><?php echo htmlspecialchars($post['title']); ?></td>
                                 <td><?php echo htmlspecialchars(strip_tags($post['content'])); ?></td>
                                 <td><?php echo htmlspecialchars($post['game_flair']); ?></td>
                                 <td><?php echo htmlspecialchars($post['post_flair']); ?></td>
                                 <td><?php echo htmlspecialchars($post['created_at']); ?></td>
                                 <td><?php echo htmlspecialchars($post['username']); ?></td>
-                                <td>
-                                    <form method="POST" action="">
-                                        <input type="hidden" name="item_id" value="<?php echo $post['id']; ?>">
-                                        <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="item_type" value="post">
-                                        <button type="submit" class="btn btn-danger btn-sm">Delete Post</button>
-                                    </form>
-                                </td>
                             </tr>
                         <?php endwhile; ?>
-                </tbody>
+                    </tbody>
                 </table>
             </div>
+
 
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
@@ -445,35 +448,41 @@
                         </div>
                     </form>
                     <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($flair = $result_game_flairs->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($flair['name']); ?></td>
-                                    <td>
-                                        <form method="POST" action="">
-                                            <input type="hidden" name="item_id" value="<?php echo $flair['id']; ?>">
-                                            <input type="hidden" name="item_type" value="game_flair">
-                                            <input type="hidden" name="action" value="delete">
-                                            <?php
-                                            $sql_count = "SELECT COUNT(*) as count FROM game_flairs";
-                                            $result_count = $conn->query($sql_count);
-                                            $count = $result_count->fetch_assoc()['count'];
-                                            if ($count > 1):
-                                            ?>
-                                                <button type="submit" class="btn btn-danger btn-sm">Delete Game Flair</button>
-                                            <?php endif; ?>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php while ($flair = $result_game_flairs->fetch_assoc()): ?>
+            <?php
+            if ($flair['name'] === 'MODERATOR ANNOUNCEMENT' || $flair['name'] === 'ADMINISTRATOR ANNOUNCEMENT') {
+                continue;
+            }
+            ?>
+            <tr>
+                <td><?php echo htmlspecialchars($flair['name']); ?></td>
+                <td>
+                    <form method="POST" action="">
+                        <input type="hidden" name="item_id" value="<?php echo $flair['id']; ?>">
+                        <input type="hidden" name="item_type" value="game_flair">
+                        <input type="hidden" name="action" value="delete">
+                        <?php
+                        $sql_count = "SELECT COUNT(*) as count FROM game_flairs";
+                        $result_count = $conn->query($sql_count);
+                        $count = $result_count->fetch_assoc()['count'];
+                        if ($count > 1):
+                        ?>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete Game Flair</button>
+                        <?php endif; ?>
+                    </form>
+                </td>
+            </tr>
+        <?php endwhile; ?>
+    </tbody>
+</table>
+
 
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
