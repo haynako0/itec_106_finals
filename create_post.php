@@ -46,7 +46,6 @@
         if ($stmt->execute()) {
             $post_id = $stmt->insert_id;
 
-            // Image upload
             if (!empty($_FILES['image']['name'])) {
                 $target_dir = "uploads/$post_id/";
                 if (!file_exists($target_dir)) {
@@ -54,7 +53,7 @@
                 }
                 $target_file = $target_dir . basename($_FILES["image"]["name"]);
                 if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-                    // Image upload successful, nothing more to do
+ 
                 } else {
                     echo "Error uploading image.";
                 }
@@ -121,7 +120,7 @@
                 { name: 'links', items: ['Link', 'Unlink'] },
                 { name: 'styles', items: ['Format', 'FontSize'] }
             ],
-            removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Image,Table,HorizontalRule,SpecialChar,Blockquote,CreateDiv,Maximize,Source,Scayt'
+            removeButtons: 'Cut,Copy,Paste,Undo,Redo,Anchor,Image,Table,HorizontalRule,SpecialChar,Blockquote,CreateDiv,Maximize,Source,Scayt,Superscript,Subscript'
         });
 
         $('#title').on('input', function() {
