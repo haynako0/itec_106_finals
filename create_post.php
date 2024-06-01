@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gacha Garden</title>
+    <title>Create Post</title>
     <link rel="icon" href="img/white_girl_save_me.ico">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -55,8 +55,8 @@
     $result_post_flairs = $conn->query($sql_post_flairs);
     ?>
 
-    <div class="container mt-5">
-        <h2 id="txt3">Create Post</h2>
+    <div class="container mt-5 mb-5">
+        <h1 id="txt3">Create Post</h1>
 
         <form id="create_post" method="POST" action="">
             <div class="form-group">
