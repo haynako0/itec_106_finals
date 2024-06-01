@@ -81,6 +81,7 @@
             </div>
         </div>
     </div>
+    <br>
 
     <?php include 'templates/footer.php'; ?>
 

@@ -22,8 +22,17 @@
         exit;
     }
 
+    $user_id = $_SESSION['user_id'];
+    $sql_user_role = "SELECT is_moderator, is_admin FROM users WHERE id = ?";
+    $stmt_user_role = $conn->prepare($sql_user_role);
+    $stmt_user_role->bind_param("i", $user_id);
+    $stmt_user_role->execute();
+    $result_user_role = $stmt_user_role->get_result();
+    $user_role = $result_user_role->fetch_assoc();
+    $is_moderator = $user_role['is_moderator'];
+    $is_admin = $user_role['is_admin'];
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $user_id = $_SESSION['user_id'];
         $title = $_POST['title'];
         $content = $_POST['content'];
         $game_flair_name = $_POST['game_flair_name'];
@@ -42,7 +51,7 @@
         $sql = "INSERT INTO posts (title, content, game_flair, post_flair, username, votes) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sssssi", $title, $content, $game_flair_name, $post_flair_name, $username, $votes);
-        
+
         if ($stmt->execute()) {
             $post_id = $stmt->insert_id;
 
@@ -53,7 +62,7 @@
                 }
                 $target_file = $target_dir . basename($_FILES["image"]["name"]);
                 if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
- 
+
                 } else {
                     echo "Error uploading image.";
                 }
@@ -65,7 +74,7 @@
         }
     }
 
-    $sql_game_flairs = "SELECT * FROM game_flairs";
+    $sql_game_flairs = "SELECT * FROM game_flairs ORDER BY FIELD(name, 'MODERATOR ANNOUNCEMENT', 'ADMINISTRATOR ANNOUNCEMENT') DESC";
     $result_game_flairs = $conn->query($sql_game_flairs);
 
     $sql_post_flairs = "SELECT * FROM post_flairs";
@@ -93,7 +102,13 @@
                 <label class="text-light" for="game_flair_name">Game Flair:</label>
                 <select id="game_flair_name" name="game_flair_name" class="form-control" required>
                     <?php while($row = $result_game_flairs->fetch_assoc()): ?>
-                        <option value="<?php echo htmlspecialchars($row['name']); ?>"><?php echo htmlspecialchars($row['name']); ?></option>
+                        <?php
+                            $flair_name = htmlspecialchars($row['name']);
+                            if (($flair_name == 'MODERATOR ANNOUNCEMENT' && !$is_moderator) || ($flair_name == 'ADMINISTRATOR ANNOUNCEMENT' && !$is_admin)) {
+                                continue;
+                            }
+                        ?>
+                        <option value="<?php echo $flair_name; ?>"><?php echo $flair_name; ?></option>
                     <?php endwhile; ?>
                 </select>
             </div>
@@ -107,7 +122,6 @@
             </div>
             <button type="submit" id="create_btn" class="btn"><span><i class="bi bi-check-circle-fill mr-2"></i></span>Create Post</button>
         </form>
-
     </div>
 
     <?php include 'templates/footer.php'; ?>

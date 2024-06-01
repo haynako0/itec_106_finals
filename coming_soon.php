@@ -16,5 +16,6 @@
         <h1 id="txt">Sorry for the inconvenience!</h2>
         <h3 id="txt2">We are still working on these features. Thank you for being patient! :)</h6>
     </div>
+    <br>
     <?php include 'templates/footer.php'; ?>
 </body>

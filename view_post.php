@@ -42,19 +42,10 @@
         exit;
     }
 
-    if ($is_admin_or_mod && isset($_GET['delete_comment'])) {
-        $comment_id = (int)$_GET['delete_comment'];
-
-        $sql = "DELETE FROM comments WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('i', $comment_id);
-        $stmt->execute();
-
-        $comment_image_path = "uploads/comments/" . $comment_id . "/";
-        if (is_dir($comment_image_path)) {
-            array_map('unlink', glob($comment_image_path . "/*.*"));
-            rmdir($comment_image_path);
-        }
+    if (isset($_GET['action']) && $_GET['action'] === 'copy') {
+        $currentURL = urlencode('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+        echo "<textarea id='copyText' style='opacity:0;position:fixed;top:0;left:0;'>{$currentURL}</textarea>";
+        echo "<script>document.getElementById('copyText').select();document.execCommand('copy');window.location.href='{$_SERVER['HTTP_REFERER']}';</script>";
     }
 
     $sql_comments = "SELECT comments.*, users.username 
@@ -88,6 +79,20 @@
                 <p>Posted on: <span id="postCreatedAt"></span></p>
                 <p><span class="badge badge-info"><?php echo htmlspecialchars($post['game_flair']); ?></span></p>
                 <p><span class="badge badge-secondary"><?php echo htmlspecialchars($post['post_flair']); ?></span></p>
+
+                <div class="float-right">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary" type="button" id="shareDropdown" aria-haspopup="true" aria-expanded="false">
+                            Share <i class="bi bi-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="shareDropdown">
+                            <a class="dropdown-item" href="#" id="copyToClipboard"><i class="bi bi-clipboard"></i> Copy to Clipboard</a>
+                            <a class="dropdown-item" href="coming_soon.php"><i class="bi bi-facebook"></i> Facebook</a>
+                            <a class="dropdown-item" href="coming_soon.php"><i class="bi bi-twitter"></i> Twitter</a>
+                            <a class="dropdown-item" href="coming_soon.php"><i class="bi bi-envelope"></i> Gmail</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -139,6 +144,8 @@
 
     <?php include 'templates/footer.php'; ?>
 
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var postCreatedAt = '<?php echo $post['created_at']; ?>';
@@ -151,6 +158,34 @@
                 var commentDate = new Date(commentCreatedAt);
                 commentCreatedTimes[i].textContent = commentDate.toLocaleString();
             }
+
+            var shareDropdown = document.getElementById('shareDropdown');
+            var dropdownMenu = shareDropdown.nextElementSibling;
+
+            shareDropdown.addEventListener('click', function () {
+                dropdownMenu.classList.toggle('show');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!shareDropdown.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+
+            document.getElementById('copyToClipboard').addEventListener('click', function (event) {
+                event.preventDefault();
+                var copyText = 'http://' + window.location.host + window.location.pathname;
+                
+                var textarea = document.createElement('textarea');
+                textarea.value = copyText;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = 0;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('Link copied to clipboard!');
+            });
         });
     </script>
 </body>
