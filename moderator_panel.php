@@ -239,7 +239,7 @@
     $result_post_flairs = $conn->query($sql_post_flairs);
     ?>
 
-    <div class="container mt-5">
+    <div class="container mt-5 mb-5">
         <h1 id="txt7" class="mb-3">Moderation Panel</h1>
 
         <div class="card mb-3">
@@ -366,7 +366,7 @@
                         <?php while ($post = $result_posts->fetch_assoc()): ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($post['title']); ?></td>
-                                <td><?php echo htmlspecialchars($post['content']); ?></td>
+                                <td><?php echo htmlspecialchars(strip_tags($post['content'])); ?></td>
                                 <td><?php echo htmlspecialchars($post['game_flair']); ?></td>
                                 <td><?php echo htmlspecialchars($post['post_flair']); ?></td>
                                 <td><?php echo htmlspecialchars($post['created_at']); ?></td>
@@ -381,7 +381,7 @@
                                 </td>
                             </tr>
                         <?php endwhile; ?>
-                    </tbody>
+                </tbody>
                 </table>
             </div>
 

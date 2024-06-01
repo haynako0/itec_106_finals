@@ -15,6 +15,19 @@
     include 'includes/db.php';
     include 'templates/header.php';
 
+    // Check if the user is an admin or moderator
+    $is_admin_or_mod = false;
+    if (isset($_SESSION['user_id'])) {
+        $user_id = $_SESSION['user_id'];
+        $sql = "SELECT is_admin, is_moderator FROM users WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $is_admin_or_mod = $user['is_admin'] || $user['is_moderator'];
+    }
+
     $post_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
     $sql = "SELECT * FROM posts WHERE id = ?";
@@ -28,6 +41,24 @@
         echo "Post not found.";
         include 'templates/footer.php';
         exit;
+    }
+
+    // Handle comment deletion
+    if ($is_admin_or_mod && isset($_GET['delete_comment'])) {
+        $comment_id = (int)$_GET['delete_comment'];
+
+        // Delete the comment
+        $sql = "DELETE FROM comments WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('i', $comment_id);
+        $stmt->execute();
+
+        // Delete any images associated with the comment
+        $comment_image_path = "uploads/comments/" . $comment_id . "/";
+        if (is_dir($comment_image_path)) {
+            array_map('unlink', glob($comment_image_path . "/*.*"));
+            rmdir($comment_image_path);
+        }
     }
 
     $sql_comments = "SELECT comments.*, users.username 
@@ -57,7 +88,7 @@
                 }
                 ?>
                 <p><?php echo nl2br(htmlspecialchars_decode($post['content'])); ?></p>
-                <p>By: <?php echo htmlspecialchars($post['username']); ?></p>
+                <p>By: <a href="user_page.php?username=<?php echo htmlspecialchars($post['username']); ?>"><?php echo htmlspecialchars($post['username']); ?></a></p>
                 <p>Posted on: <span id="postCreatedAt"></span></p>
                 <p><span class="badge badge-info"><?php echo htmlspecialchars($post['game_flair']); ?></span></p>
                 <p><span class="badge badge-secondary"><?php echo htmlspecialchars($post['post_flair']); ?></span></p>
@@ -69,28 +100,40 @@
                 <h3 id="txt8" class="mb-0">Comments</h3>
             </div>
             <div class="card-body">
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <form method="POST" action="comment.php" style="margin-bottom: 20px;" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <textarea class="form-control" name="content" rows="3" required></textarea>
-                        </div>
-                        <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['id']); ?>">
-                        <button type="submit" class="btn btn-primary">Comment</button>
-                    </form>
-                <?php else: ?>
-                    <p><a href="login.php">Log in</a> to post a comment.</p>
-                <?php endif; ?>
-
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <form method="POST" action="comment.php" style="margin-bottom: 20px;" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <textarea class="form-control" name="content" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment_image">Upload Image:</label>
+                        <input type="file" id="comment_image" name="comment_image" class="form-control">
+                    </div>
+                    <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['id']); ?>">
+                    <button type="submit" class="btn btn-primary">Comment</button>
+                </form>
+            <?php else: ?>
+                <p><a href="login.php">Log in</a> to post a comment.</p>
+            <?php endif; ?>
                 <?php while($comment = $result_comments->fetch_assoc()): ?>
                     <div class="card mb-3">
                         <div id="comment_body_<?php echo $comment['id']; ?>" class="card-body">
                             <?php
-                            if (!empty($comment['image'])) {
-                                echo '<img src="' . htmlspecialchars($comment['image']) . '" alt="Comment Image" class="img-fluid mb-3">';
+                            $comment_image_path = "uploads/comments/" . $comment['id'] . "/";
+                            if (is_dir($comment_image_path)) {
+                                $comment_images = glob($comment_image_path . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+                                if (count($comment_images) > 0) {
+                                    echo '<img src="' . $comment_images[0] . '" alt="Comment Image" class="img-fluid mb-3">';
+                                }
                             }
                             ?>
                             <p class="card-text"><?php echo nl2br(htmlspecialchars_decode($comment['content'])); ?></p>
-                            <p class="card-text"><small class="text-muted">By: <?php echo htmlspecialchars($comment['username']); ?> | <span class="commentCreatedAt" data-timestamp="<?php echo $comment['created_at']; ?>"></span></small></p>
+                            <p class="card-text"><small class="text-muted">By: <a href="user_page.php?username=<?php echo htmlspecialchars($comment['username']); ?>"><?php echo htmlspecialchars($comment['username']); ?></a> | <span class="commentCreatedAt" data-timestamp="<?php echo $comment['created_at']; ?>"></span></small></p>
+                            <?php if ($is_admin_or_mod): ?>
+                                <a href="?id=<?php echo $post_id; ?>&delete_comment=<?php echo $comment['id']; ?>" class="btn btn-danger btn-sm float-right" onclick="return confirm('Are you sure you want to delete this comment?')">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 <?php endwhile; ?>
