@@ -174,3 +174,73 @@ body {
 #about{
     font-family: g2;
 }
+
+.pagination .page-link {
+    background-color: #2E6F85;
+    color: white;
+    border-color: #2E6F85;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #1D4F64;
+    border-color: #1D4F64;
+    color: white;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive table {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    border-collapse: collapse;
+}
+
+.table-responsive table th,
+.table-responsive table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+    white-space: nowrap;
+}
+
+.table-responsive table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table-responsive table tbody + tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+@media (max-width: 575.98px) {
+    .table-responsive-sm {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .table-responsive-md {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .table-responsive-lg {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .table-responsive-xl {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}

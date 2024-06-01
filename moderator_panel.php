@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moderator Panel</title>
+    <title>Moderation Panel</title>
     <link rel="icon" href="img/white_girl_save_me.ico">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
@@ -240,7 +240,7 @@
     ?>
 
     <div class="container mt-5">
-        <h2 id="txt7" class="mb-3">Moderator Panel</h2>
+        <h1 id="txt7" class="mb-3">Moderation Panel</h1>
 
         <div class="card mb-3">
             <div id="post_header" class="card-header">
@@ -349,39 +349,41 @@
                     </div>
                 </div>
             </form>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Content</th>
-                        <th>Game Flair</th>
-                        <th>Post Flair</th>
-                        <th>Created At</th>
-                        <th>Username</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($post = $result_posts->fetch_assoc()): ?>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td><?php echo htmlspecialchars($post['title']); ?></td>
-                            <td><?php echo htmlspecialchars($post['content']); ?></td>
-                            <td><?php echo htmlspecialchars($post['game_flair']); ?></td>
-                            <td><?php echo htmlspecialchars($post['post_flair']); ?></td>
-                            <td><?php echo htmlspecialchars($post['created_at']); ?></td>
-                            <td><?php echo htmlspecialchars($post['username']); ?></td>
-                            <td>
-                                <form method="POST" action="">
-                                    <input type="hidden" name="item_id" value="<?php echo $post['id']; ?>">
-                                    <input type="hidden" name="action" value="delete">
-                                    <input type="hidden" name="item_type" value="post">
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete Post</button>
-                                </form>
-                            </td>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>Game Flair</th>
+                            <th>Post Flair</th>
+                            <th>Created At</th>
+                            <th>Username</th>
+                            <th>Action</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php while ($post = $result_posts->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($post['title']); ?></td>
+                                <td><?php echo htmlspecialchars($post['content']); ?></td>
+                                <td><?php echo htmlspecialchars($post['game_flair']); ?></td>
+                                <td><?php echo htmlspecialchars($post['post_flair']); ?></td>
+                                <td><?php echo htmlspecialchars($post['created_at']); ?></td>
+                                <td><?php echo htmlspecialchars($post['username']); ?></td>
+                                <td>
+                                    <form method="POST" action="">
+                                        <input type="hidden" name="item_id" value="<?php echo $post['id']; ?>">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="item_type" value="post">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete Post</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
 
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">

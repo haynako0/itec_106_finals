@@ -31,7 +31,17 @@
                                     <?php echo htmlspecialchars($post['username']); ?>
                                 </a>
                             </h6>
-                            <p class="card-text"><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
+                            <?php
+                            $image_path = "uploads/" . $post['id'] . "/";
+                            if (is_dir($image_path)) {
+                                $images = glob($image_path . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+                                if (count($images) > 0) {
+                                    echo '<img src="' . $images[0] . '" alt="Post Image" class="img-fluid mb-3">';
+                                }
+                            }
+                            ?>
+                            <p class="card-text"><?php echo nl2br(htmlspecialchars_decode($post['content'])); ?></p>
+                            <p>Posted on: <span class="postCreatedAt" data-timestamp="<?php echo $post['created_at']; ?>"></span></p>
                             <p><span class="badge badge-info"><?php echo htmlspecialchars($post['game_flair']); ?></span></p>
                             <p><span class="badge badge-secondary"><?php echo htmlspecialchars($post['post_flair']); ?></span></p>
                             <a href="view_post.php?id=<?php echo $post['id']; ?>" id="view_btn" class="btn btn-primary">View Post</a>
@@ -43,4 +53,15 @@
     </div>
 
     <?php include 'templates/footer.php'; ?>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var postCreatedTimes = document.getElementsByClassName('postCreatedAt');
+            for (var i = 0; i < postCreatedTimes.length; i++) {
+                var postCreatedAt = postCreatedTimes[i].getAttribute('data-timestamp');
+                var postDate = new Date(postCreatedAt);
+                postCreatedTimes[i].textContent = postDate.toLocaleString();
+            }
+        });
+    </script>
 </body>

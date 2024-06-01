@@ -26,7 +26,7 @@
                         <?php if(isset($_SESSION['username'])): ?>
                             <?php if($_SESSION['role'] == 'moderator' || $_SESSION['role'] == 'admin'): ?>
                                 <li class="nav-item">
-                                    <a class="nav-link btn btn-outline-light mx-1" href="moderator_panel.php">Moderator Panel</a>
+                                    <a class="nav-link btn btn-outline-light mx-1" href="moderator_panel.php">Moderation Panel</a>
                                 </li>
                             <?php endif; ?>
                             <li class="nav-item">
